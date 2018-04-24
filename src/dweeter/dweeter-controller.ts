@@ -27,11 +27,11 @@ export class DweeterController implements IDweeterController {
         }
     }
 
-    @customRoute(new Route('patch', '/:userid/follow', ensureAuthenticated))
+    @customRoute(new Route('patch', '/:followerId/follow', ensureAuthenticated))
     public async followDweeter(req: Request, res: Response): Promise<any> {
         try {
-            const userId = req.params.userid;
-            const followerId = req.body.followerId;
+            const userId = req.headers.userid as string;
+            const followerId = req.params.followerId;
 
             //const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
             const dweeterDb = new DweeterDb();
