@@ -3,7 +3,7 @@ import { IDweet, Dweet, User, IComment } from "../models";
 import { DbResult, ValidationError } from "../helper-classes";
 import { injectable } from "inversify";
 
-injectable()
+@injectable()
 export class DweetDb implements IDweetDb {
 
     public async getAllFollowedDweets(userId: String): Promise<any> {

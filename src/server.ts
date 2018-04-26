@@ -1,8 +1,8 @@
 import { ILogger, LoggerFactory } from './logger-and-decoretor';
 import * as http from 'http';
+import { container } from './inversify.config';
 import 'reflect-metadata';
 import { App, AppToken } from './app';
-import { container } from './inversify.config';
 
 export class Server {
     private port: number;

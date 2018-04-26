@@ -19,8 +19,7 @@ export class DweetController implements IDweetController {
         try {
             const userId = req.headers.userid as String;
 
-            //const dweetDb = container.get<IDweetDb>(DweetDbToken);
-            const dweetDb = new DweetDb();
+            const dweetDb = container.get<IDweetDb>(DweetDbToken);
             const result = await dweetDb.getAllFollowedDweets(userId);
             return res.status(200).send(result);
         } catch (err) {
@@ -36,8 +35,7 @@ export class DweetController implements IDweetController {
                 dweeterId: req.headers.userid,
                 message: req.body.message,
             };
-            //const accountDb = container.get<IDweetDb>(DweetDbToken);
-            const dweetDb = new DweetDb();
+            const dweetDb = container.get<IDweetDb>(DweetDbToken);
             const dbResult = await dweetDb.createDweet(dweet as any);
             if (dbResult.errors) {
                 return res.status(400).send(dbResult.errors);
@@ -56,8 +54,7 @@ export class DweetController implements IDweetController {
             const userId = req.headers.userid as String;
             const dweetId = req.params.dweetid;
 
-            //const dweetDb = container.get<IDweetDb>(DweetDbToken);
-            const dweetDb = new DweetDb();
+            const dweetDb = container.get<IDweetDb>(DweetDbToken);
             const dbResult = await dweetDb.likeDweet(userId, dweetId);
             return res.status(200).send(dbResult);
         } catch (err) {
@@ -75,8 +72,7 @@ export class DweetController implements IDweetController {
                 commentBy: req.headers.userid as String,
             }
 
-            //const dweetDb = container.get<IDweetDb>(DweetDbToken);
-            const dweetDb = new DweetDb();
+            const dweetDb = container.get<IDweetDb>(DweetDbToken);
             const dbResult = await dweetDb.commentOnDweet(dweetId, comment as any);
             if (dbResult.errors) {
                 return res.status(400).send(dbResult.errors);
@@ -94,8 +90,7 @@ export class DweetController implements IDweetController {
         try {
             const message = req.query.queryString;
 
-            //const dweetDb = container.get<IDweetDb>(DweetDbToken);
-            const dweetDb = new DweetDb();
+            const dweetDb = container.get<IDweetDb>(DweetDbToken);
             const searchResult = await dweetDb.searchDweet(message);
             return res.status(200).send(searchResult);
         } catch (err) {

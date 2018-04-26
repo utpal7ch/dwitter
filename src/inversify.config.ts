@@ -1,8 +1,7 @@
 import * as express from 'express';
 import { Container, interfaces } from 'inversify';
-import 'reflect-metadata';
-import { App, AppToken } from './app';
 import { InjectionToken } from './injection-token';
+import { App, AppToken } from './app';
 import { AccountController, IAccountController, AccountControllerToken } from './account';
 import { AccountDb, IAccountDb, AccountDbToken } from './account';
 import { DweetController, IDweetController, DweetControllerToken } from './dweet';

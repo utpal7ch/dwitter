@@ -17,8 +17,7 @@ export class DweeterController implements IDweeterController {
         try {
             const dweeterName = req.query.queryString;
 
-            //const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
-            const dweeterDb = new DweeterDb();
+            const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
             const searchResult = await dweeterDb.searchDweeter(dweeterName);
             return res.status(200).send(searchResult);
         } catch (err) {
@@ -33,8 +32,7 @@ export class DweeterController implements IDweeterController {
             const userId = req.headers.userid as string;
             const followerId = req.params.followerId;
 
-            //const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
-            const dweeterDb = new DweeterDb();
+            const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
             const dbResult = await dweeterDb.followDweeter(userId, followerId);
             return res.status(200).send(dbResult);
         } catch (err) {

@@ -6,8 +6,7 @@ import { ILogger, LoggerFactory } from '../logger-and-decoretor';
 export async function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
     if (req.headers.userid) {
         const logger: ILogger = LoggerFactory.getLogger();
-        //const accountDb = container.get<IAccountDb>(AccountDbToken);
-        const accountDb = new AccountDb();
+        const accountDb = container.get<IAccountDb>(AccountDbToken);
         try {
             const isUserExist = await accountDb.isValidUserId(req.headers.userid as string);
             if (isUserExist) {

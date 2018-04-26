@@ -21,8 +21,7 @@ export class AccountController implements IAccountController {
                 fullName: req.body.fullName,
                 password: req.body.password,
             };
-            //const accountDb = container.get<IAccountDb>(AccountDbToken);
-            const accountDb = new AccountDb();
+            const accountDb = container.get<IAccountDb>(AccountDbToken);
             const dbResult = await accountDb.signUp(user as any);
             if (dbResult.errors) {
                 return res.status(400).send(dbResult.errors);
