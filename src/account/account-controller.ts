@@ -33,4 +33,20 @@ export class AccountController implements IAccountController {
             return res.status(500).send('Unknown error occured');
         }
     }
+
+    @customRoute(new Route('post', '/login'))
+    public async login(req: Request, res: Response): Promise<any> {
+        try {
+            const user = {
+                userName: req.body.userName,
+                password: req.body.password,
+            };
+            const accountDb = container.get<IAccountDb>(AccountDbToken);
+            const dbResult = await accountDb.login(user as any);
+            return res.status(200).send(dbResult);
+        } catch (err) {
+            this.logger.error(err);
+            return res.status(500).send('Unknown error occured');
+        }
+    }
 }

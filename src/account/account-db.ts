@@ -5,7 +5,7 @@ import { DbResult, ValidationError } from "../helper-classes";
 
 @injectable()
 export class AccountDb implements IAccountDb {
-    
+
     public async signUp(user: IUser): Promise<DbResult> {
         return new Promise<DbResult>((resolve) => {
             const userModel = new User(user);
@@ -13,7 +13,22 @@ export class AccountDb implements IAccountDb {
                 if (err) {
                     resolve(new DbResult(this.handleSignupError(err), undefined));
                 } else {
-                    resolve(new DbResult(undefined,  result.toJSON()));
+                    resolve(new DbResult(undefined, result.toJSON()));
+                }
+            });
+        });
+    }
+
+    public async login(user: IUser): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            const query = User.find({ userName: user.userName, password: user.password });
+            query.select('_id userName fullName');
+
+            query.exec((err, result) => {
+                if (err) {
+                    reject(`Mongoose error: ${err}`);
+                } else {
+                    resolve(result[0] ? result[0].toJSON() : null);
                 }
             });
         });
@@ -22,7 +37,7 @@ export class AccountDb implements IAccountDb {
     public async isValidUserId(userId: String): Promise<Boolean> {
         return new Promise<Boolean>((resolve, reject) => {
             User.findById(userId, '_id', (err, result) => {
-                if(err || !result) {
+                if (err || !result) {
                     reject(err);
                 } else {
                     resolve(true);
