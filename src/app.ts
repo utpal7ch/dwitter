@@ -54,7 +54,7 @@ export class App {
         if (req.headers.origin) {
             res.header('Access-Control-Allow-Origin', req.headers.origin.toString());
         }
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control, Pragma');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Cache-Control, userid');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE');
         next();
     }
