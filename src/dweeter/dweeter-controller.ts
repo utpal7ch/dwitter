@@ -31,11 +31,15 @@ export class DweeterController implements IDweeterController {
     public async followDweeter(req: Request, res: Response): Promise<any> {
         try {
             const userId = req.headers.userid as string;
-            const followerId = req.params.followerId;
+            const followerId = req.params.followerId as string;
 
-            const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
-            const dbResult = await dweeterDb.followDweeter(userId, followerId);
-            return res.status(200).send(dbResult);
+            if (userId == followerId) {
+                return res.status(200).send(false);
+            } else {
+                const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
+                const dbResult = await dweeterDb.followDweeter(userId, followerId);
+                return res.status(200).send(dbResult);
+            }
         } catch (err) {
             this.logger.error(err);
             return res.status(500).send('Unknown error occured');
