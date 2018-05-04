@@ -15,10 +15,11 @@ export class DweeterController implements IDweeterController {
     @customRoute(new Route('get', '/search', ensureAuthenticated))
     public async searchDweeter(req: Request, res: Response): Promise<any> {
         try {
+            const userId = req.headers.userid as string;
             const dweeterName = req.query.queryString;
 
             const dweeterDb = container.get<IDweeterDb>(DweeterDbToken);
-            const searchResult = await dweeterDb.searchDweeter(dweeterName);
+            const searchResult = await dweeterDb.searchDweeter(userId, dweeterName);
             return res.status(200).send(searchResult);
         } catch (err) {
             this.logger.error(err);

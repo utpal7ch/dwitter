@@ -6,7 +6,7 @@ import { DweeterSearchResult } from "../helper-classes";
 @injectable()
 export class DweeterDb implements IDweeterDb {
 
-    public async searchDweeter(dweeterName: String): Promise<DweeterSearchResult[]> {
+    public async searchDweeter(userId: string, dweeterName: String): Promise<DweeterSearchResult[]> {
         return new Promise<DweeterSearchResult[]>((resolve) => {
             const condition = { userName: { "$regex": dweeterName, "$options": "i" } };
 
@@ -15,13 +15,27 @@ export class DweeterDb implements IDweeterDb {
                     throw err;
                 } else {
                     const result: DweeterSearchResult[] = [];
-                    for (const user of foundUsers) {
-                        result.push({
-                            _id: user._id,
-                            userName: user.userName,
+                    const followingMap = new Map<String, true>();
+                    if (foundUsers.length > 0) {
+                        User.findById(userId).select('followings').exec((error, loggedinUser) => {
+                            if (error) {
+                                throw error;
+                            } else {
+                                loggedinUser.followings.forEach(fid => {
+                                    followingMap.set(fid.toString(), true);
+                                });
+
+                                for (const user of foundUsers) {
+                                    result.push({
+                                        _id: user._id,
+                                        userName: user.userName,
+                                        isFollowing: followingMap.get(user._id.toString()) !== undefined,
+                                    });
+                                }
+                                resolve(result);
+                            }
                         });
                     }
-                    resolve(result);
                 }
             });
         });

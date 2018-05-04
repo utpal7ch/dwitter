@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { DweeterSearchResult } from '../helper-classes';
 
 export interface IDweeterDb {
-    searchDweeter(dweeterName: String): Promise<DweeterSearchResult[]>;
+    searchDweeter(userId: string, dweeterName: String): Promise<DweeterSearchResult[]>;
     followDweeter(userId: String, followerId: string): Promise<Boolean>;
 }
 
