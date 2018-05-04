@@ -11,7 +11,7 @@ export class DweetDb implements IDweetDb {
             User.findById(userId)
                 .populate({
                     path: 'followings',
-                    select: 'dweets',
+                    select: 'dweets userName',
                     //populate: { path: 'dweets' }
                 })
                 .exec((err, foundDweeters) => {
@@ -19,18 +19,27 @@ export class DweetDb implements IDweetDb {
                         throw err;
                     } else {
                         const dweets: any[] = [];
+                        const dweetIdDweeterMap = new Map<string, string>();
+
                         foundDweeters.followings.forEach((dweeter) => {
-                            ((dweeter as any).dweets as any[]).forEach((dweet) => {
-                                dweets.push(dweet);
+                            const userName = (dweeter as any).userName;
+                            ((dweeter as any).dweets as any[]).forEach((dweetId) => {
+                                dweets.push(dweetId);
+                                dweetIdDweeterMap.set(dweetId.toString(), userName);
                             });
                         });
-                        Dweet.find({ _id: { $in: dweets } }, (error, result) => {
-                            if(err) {
-                                throw err;
-                            } else {
-                                resolve(result);
-                            }
-                        });
+                        Dweet.find({ _id: { $in: dweets } })
+                            .lean()
+                            .exec((error, result) => {
+                                if (err) {
+                                    throw err;
+                                } else {
+                                    for (const dweet of result) {
+                                        (dweet as any).dweeterName = dweetIdDweeterMap.get(dweet._id.toString());
+                                    }
+                                    resolve(result);
+                                }
+                            });
                     }
                 })
         });

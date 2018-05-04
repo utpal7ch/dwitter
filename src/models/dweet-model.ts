@@ -15,7 +15,7 @@ export interface IDweet {
     comments: [IComment];
 }
 
-interface IDweeterModel extends IDweet, mongoose.Document { }
+interface IDweetModel extends IDweet, mongoose.Document { }
 
 const dweetSchema = new mongoose.Schema({
     dweeterId: {
@@ -53,4 +53,4 @@ const dweetSchema = new mongoose.Schema({
     }],
 });
 
-export const Dweet = mongoose.model<IDweeterModel>('Dweet', dweetSchema);
+export const Dweet = mongoose.model<IDweetModel>('Dweet', dweetSchema);
