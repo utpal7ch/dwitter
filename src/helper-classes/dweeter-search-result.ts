@@ -1,4 +1,4 @@
 export class DweeterSearchResult {
-    dweeterId: String;
-    dweeterName: String;
+    _id: String;
+    userName: String;
 }

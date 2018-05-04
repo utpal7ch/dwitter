@@ -17,8 +17,8 @@ export class DweeterDb implements IDweeterDb {
                     const result: DweeterSearchResult[] = [];
                     for (const user of foundUsers) {
                         result.push({
-                            dweeterId: user._id,
-                            dweeterName: user.userName,
+                            _id: user._id,
+                            userName: user.userName,
                         });
                     }
                     resolve(result);
