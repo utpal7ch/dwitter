@@ -88,11 +88,15 @@ export class DweetDb implements IDweetDb {
                 $addToSet: { likes: userId }
             }
 
-            Dweet.findOneAndUpdate(conditions, update, (err, doc) => {
+            Dweet.findOneAndUpdate(conditions, update, {new: true}, (err, doc) => {
                 if (err) {
                     resolve(false);
                 } else {
-                    resolve(true);
+                    if(doc) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
                 }
             });
         });
